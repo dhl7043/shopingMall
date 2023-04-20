@@ -50,6 +50,10 @@ public class OrderItem {
         return orderItem;
     }
 
+    public void cancel() {
+        getItem().addStock(count);
+    }
+
     /**
      * 주문상품 전체 가격 조회
      */
@@ -57,10 +61,7 @@ public class OrderItem {
         return getOrderPrice() * getCount();
     }
 
-    /**
-     * setter보단 생성자로
-     */
-    public OrderItem(Order order) {
+    public void enableOrder(Order order) {
         this.order = order;
     }
 }
