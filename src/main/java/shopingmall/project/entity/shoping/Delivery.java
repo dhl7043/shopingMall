@@ -15,8 +15,8 @@ public class Delivery {
     @OneToOne(mappedBy = "delivery")
     private Order order;
 
-//    @Embedded
-//    private Address address;
+    @Embedded
+    private Address address;
 
     @Enumerated(EnumType.ORDINAL)
     private DeliveryType status;
