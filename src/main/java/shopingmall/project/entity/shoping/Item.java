@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import shopingmall.project.entity.baseEntity.BaseEntity;
 import shopingmall.project.type.ItemType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Getter
@@ -23,6 +26,9 @@ public class Item extends BaseEntity {
     private ItemType item;      //상품종류
     private String description; //상품설명
     private int stockQuantity;  //상품수량
+
+    @ManyToMany(mappedBy = "items")
+    private List<Category> categories = new ArrayList<>();
 
     /**
      * stock 증가
