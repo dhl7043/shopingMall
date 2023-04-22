@@ -18,9 +18,9 @@ public class Order {
     private Long id;
 
     // 회원은 여러 주문이 가능
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -36,6 +36,10 @@ public class Order {
     private OrderType status;
 
     //TODO 멤버와의 연관관계
+    public void enableMember(Member member) {
+        this.member = member;
+        member.getOrders().add(this);
+    }
 
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
@@ -47,7 +51,27 @@ public class Order {
         delivery.enableOrder(this);
     }
 
-    // TODO createOrder 멤버, 배송, 배송주문들
+    public void enableStatus(OrderType status) {
+        this.status = status;
+    }
+
+    public void enableOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+        Order order = new Order();
+        order.enableMember(member);
+        order.enableDelivery(delivery);
+
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+
+        order.enableStatus(OrderType.ORDER);
+        order.enableOrderDate(LocalDateTime.now());
+        return order;
+    }
 
     /**
      * 주문 취소
@@ -57,16 +81,11 @@ public class Order {
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
         }
 
-        //TODO 전체 생성자에 캔슬추가
-//        new Order(OrderType.CANCEL);
+        this.status = OrderType.CANCEL;
 
         for (OrderItem orderItem : orderItems) {
             orderItem.cancel();
         }
-    }
-
-    public Order(OrderType status) {
-        this.status = status;
     }
 
     /**
