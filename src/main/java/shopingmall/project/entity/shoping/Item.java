@@ -48,4 +48,12 @@ public class Item extends BaseEntity {
         }
         this.stockQuantity = restStock;
     }
+
+    public Item(String name, int price, ItemType item, String description, int stockQuantity) {
+        this.name = name;
+        this.price = price;
+        this.item = item;
+        this.description = description;
+        this.stockQuantity = stockQuantity;
+    }
 }
