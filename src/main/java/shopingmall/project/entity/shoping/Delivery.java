@@ -24,4 +24,9 @@ public class Delivery {
     public void enableOrder(Order order) {
         this.order = order;
     }
+
+    public Delivery(Address address, DeliveryType status) {
+        this.address = address;
+        this.status = status;
+    }
 }
