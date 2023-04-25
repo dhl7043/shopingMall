@@ -19,7 +19,7 @@ public class Member {
     private Long id;
 
     private String name;
-    private String age;
+    private int age;
     private String phoneNumber;
     private String email;
 
@@ -28,4 +28,15 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
+
+    /**
+     * 테스트용 멤버 생성
+     */
+    public Member(String name, int age, String phoneNumber, String email, Address address) {
+        this.name = name;
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+    }
 }
