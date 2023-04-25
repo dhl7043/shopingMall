@@ -36,41 +36,18 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderType status;
 
-    //TODO 멤버와의 연관관계
-    public void enableMember(Member member) {
-        this.member = member;
-        member.getOrders().add(this);
-    }
-
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
         orderItem.enableOrder(this);
     }
 
-    public void enableDelivery(Delivery delivery) {
-        this.delivery = delivery;
-        delivery.enableOrder(this);
-    }
-
-    public void enableStatus(OrderType status) {
-        this.status = status;
-    }
-
-    public void enableOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
-    }
-
     public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
-        Order order = new Order();
-        order.enableMember(member);
-        order.enableDelivery(delivery);
+        Order order = new Order(member, delivery, OrderType.ORDER, LocalDateTime.now());
 
         for (OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
         }
 
-        order.enableStatus(OrderType.ORDER);
-        order.enableOrderDate(LocalDateTime.now());
         return order;
     }
 
@@ -96,5 +73,12 @@ public class Order {
         return orderItems.stream()
                 .mapToInt(OrderItem::getTotalPrice)
                 .sum();
+    }
+
+    public Order(Member member, Delivery delivery, OrderType status, LocalDateTime orderDate) {
+        this.member = member;
+        this.delivery = delivery;
+        this.status = status;
+        this.orderDate = orderDate;
     }
 }
