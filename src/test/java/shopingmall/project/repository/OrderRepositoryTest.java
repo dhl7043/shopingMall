@@ -10,6 +10,7 @@ import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Item;
 import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.entity.shoping.Order;
+import shopingmall.project.exception.NotEnoughStockException;
 import shopingmall.project.service.OrderService;
 import shopingmall.project.type.ItemType;
 import shopingmall.project.type.OrderType;
@@ -48,6 +49,40 @@ class OrderRepositoryTest {
         assertEquals(1, getOrder.get().getOrderItems().size());
         assertEquals(10000 * orderCount, getOrder.get().getTotalPrice());
         assertEquals(90, item.getStockQuantity());
+    }
+
+    /**
+     * 수량초과 테스트
+     */
+    @Test
+    public void excessQuantity() {
+
+        Member member = createMember();
+        Item item = createItem();
+        int orderCount = 101;
+
+        assertThrows(NotEnoughStockException.class, () -> {
+            orderService.order(member.getId(), item.getId(), orderCount);
+        });
+    }
+
+    /**
+     * 주문취소 테스트
+     */
+    public void cancelOrder() {
+
+        Member member = createMember();
+        Item item = createItem();
+        int orderCount = 2;
+
+        Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
+
+        orderService.cancelOrder(orderId);
+
+        Optional<Order> getOrder = orderRepository.findById(orderId);
+
+        assertEquals(OrderType.CANCEL, getOrder.get().getStatus());
+        assertEquals(100, item.getStockQuantity());
     }
 
     /**
