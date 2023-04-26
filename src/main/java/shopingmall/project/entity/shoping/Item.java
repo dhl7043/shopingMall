@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shopingmall.project.entity.baseEntity.BaseEntity;
+import shopingmall.project.exception.NotEnoughStockException;
 import shopingmall.project.type.ItemType;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class Item extends BaseEntity {
         int restStock = this.stockQuantity - quantity;
 
         if (restStock < 0) {
-//            throw new NotEnoughStockException("수량이 부족합니다.");
+            throw new NotEnoughStockException("수량이 부족합니다.");
         }
         this.stockQuantity = restStock;
     }
