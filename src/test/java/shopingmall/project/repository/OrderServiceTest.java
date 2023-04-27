@@ -1,7 +1,6 @@
 package shopingmall.project.repository;
 
 import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,15 +14,13 @@ import shopingmall.project.service.OrderService;
 import shopingmall.project.type.ItemType;
 import shopingmall.project.type.OrderType;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class OrderRepositoryTest {
+class OrderServiceTest {
 
     @Autowired
     EntityManager em;
@@ -69,6 +66,7 @@ class OrderRepositoryTest {
     /**
      * 주문취소 테스트
      */
+    @Test
     public void cancelOrder() {
 
         Member member = createMember();
