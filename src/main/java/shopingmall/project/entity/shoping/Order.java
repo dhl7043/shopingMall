@@ -1,7 +1,9 @@
 package shopingmall.project.entity.shoping;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import shopingmall.project.type.DeliveryType;
 import shopingmall.project.type.OrderType;
 
@@ -12,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자
 public class Order {
 
     @Id @GeneratedValue

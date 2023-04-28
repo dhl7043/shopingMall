@@ -1,11 +1,14 @@
 package shopingmall.project.entity.shoping;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import shopingmall.project.type.DeliveryType;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자
 public class Delivery {
 
     @Id @GeneratedValue
@@ -20,10 +23,6 @@ public class Delivery {
 
     @Enumerated(EnumType.ORDINAL)
     private DeliveryType status;
-
-    public void enableOrder(Order order) {
-        this.order = order;
-    }
 
     public Delivery(Address address, DeliveryType status) {
         this.address = address;
