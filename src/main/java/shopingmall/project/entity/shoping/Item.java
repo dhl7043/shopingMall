@@ -57,4 +57,11 @@ public class Item extends BaseEntity {
         this.description = description;
         this.stockQuantity = stockQuantity;
     }
+
+    public void changeItem(String name, int price, ItemType item, String description, int stockQuantity) {
+        this.price = price;
+        this.item = item;
+        this.description = description;
+        this.stockQuantity = stockQuantity;
+    }
 }
