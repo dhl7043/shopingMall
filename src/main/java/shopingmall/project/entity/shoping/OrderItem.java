@@ -18,13 +18,12 @@ public class OrderItem {
     @Column(name = "order_item_id")
     private Long id;
 
-    @ManyToOne
-//    @ManyToOne(fetch = FetchType.LAZY) //ManyToOne에서는 LAZY를 사용해야하는데 manytomany중간지점도 LAZY?
+    @ManyToOne(fetch = FetchType.LAZY) //ManyToOne에서는 LAZY를 사용해야하는데 manytomany중간지점도 LAZY?
     @JoinColumn(name = "item_id")
     private Item item;
 
-    @ManyToOne
-//    @ManyToOne(fetch = FetchType.LAZY) //ManyToOne에서는 LAZY를 사용해야하는데 manytomany중간지점도 LAZY?
+
+    @ManyToOne(fetch = FetchType.LAZY) //ManyToOne에서는 LAZY를 사용해야하는데 manytomany중간지점도 LAZY?
     @JoinColumn(name = "order_id")
     private Order order;
 
