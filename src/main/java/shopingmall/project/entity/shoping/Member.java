@@ -42,4 +42,11 @@ public class Member {
         this.email = email;
         this.address = address;
     }
+
+    public void changeMember(String name, int age, String phoneNumber, String email, Address address) {
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+    }
 }
