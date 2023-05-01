@@ -1,4 +1,4 @@
-package shopingmall.project.repository;
+package shopingmall.project.service;
 
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import shopingmall.project.entity.shoping.Item;
+import shopingmall.project.repository.ItemRepository;
 import shopingmall.project.type.ItemType;
 
 import java.util.List;
