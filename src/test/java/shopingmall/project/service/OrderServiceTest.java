@@ -1,4 +1,4 @@
-package shopingmall.project.repository;
+package shopingmall.project.service;
 
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
@@ -10,6 +10,7 @@ import shopingmall.project.entity.shoping.Item;
 import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.entity.shoping.Order;
 import shopingmall.project.exception.NotEnoughStockException;
+import shopingmall.project.repository.OrderRepository;
 import shopingmall.project.service.OrderService;
 import shopingmall.project.type.ItemType;
 import shopingmall.project.type.OrderType;
