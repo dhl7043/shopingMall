@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Member;
+import shopingmall.project.repository.MemberJpaRepository;
 import shopingmall.project.repository.MemberRepository;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
 
     /**
      * 회원가입
@@ -40,6 +42,7 @@ public class MemberService {
     public void updateMember(Long id, String name, int age, String phoneNumber, String email, String city, String street, String zipcode) {
         Optional<Member> member = memberRepository.findById(id);
         member.get().changeMember(name, age, phoneNumber, email, new Address(city, street, zipcode));
+        memberJpaRepository.updateMemberName(member);
     }
 
     private void duplicateCheckMember(Member member) {
