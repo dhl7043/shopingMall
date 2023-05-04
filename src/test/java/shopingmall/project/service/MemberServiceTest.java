@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import shopingmall.project.dto.MemberDto;
 import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.repository.MemberJpaRepository;
@@ -23,6 +24,8 @@ class MemberServiceTest {
     @Autowired
     EntityManager em;
     @Autowired
+    MemberService memberService;
+    @Autowired
     MemberJpaRepository memberJpaRepository;
     @Autowired
     MemberRepository memberRepository;
@@ -32,11 +35,13 @@ class MemberServiceTest {
         Member member = createMember();
 
         Member member1 = memberRepository.findById(member.getId()).orElse(null);
-        // 맞는지 확인
         assertThat(member1).isEqualTo(member);
 
-        // 수정
-        member1.changeMember("회원2", 20, "01012341234", "asd@asdqw.asd", new Address("도시1", "스트릿1", "12312"));
+        Long member1Id = member1.getId();
+
+        memberService.updateMember(member1Id, "회원2", 20, "01001001001", "qwe@qwe.com", "도시", "스트릿", "01012");
+        List<MemberDto> getMembers = memberRepository.findByName("회원2");
+        assertThat(getMembers).extracting("age").containsExactly(20);
     }
 
     /**
