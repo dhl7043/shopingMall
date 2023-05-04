@@ -3,6 +3,7 @@ package shopingmall.project.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shopingmall.project.dto.MemberDto;
 import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.repository.MemberJpaRepository;
@@ -46,7 +47,7 @@ public class MemberService {
     }
 
     private void duplicateCheckMember(Member member) {
-        List<Member> findMembers = memberRepository.findByName(member.getName());
+        List<MemberDto> findMembers = memberRepository.findByName(member.getName());
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
