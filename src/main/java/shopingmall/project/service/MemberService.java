@@ -43,7 +43,7 @@ public class MemberService {
     public void updateMember(Long id, String name, int age, String phoneNumber, String email, String city, String street, String zipcode) {
         Optional<Member> member = memberRepository.findById(id);
         member.get().changeMember(name, age, phoneNumber, email, new Address(city, street, zipcode));
-        memberJpaRepository.updateMemberName(member);
+        memberJpaRepository.updateMember(member);
     }
 
     private void duplicateCheckMember(Member member) {

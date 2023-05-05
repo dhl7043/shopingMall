@@ -1,7 +1,6 @@
 package shopingmall.project.service;
 
 import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,11 +36,15 @@ class MemberServiceTest {
         Member member1 = memberRepository.findById(member.getId()).orElse(null);
         assertThat(member1).isEqualTo(member);
 
-        Long member1Id = member1.getId();
+        member1.changeMember("회원2", 20, "01001001001", "qwe@qwe.com", new Address("도시", "스트릿", "01012"));
+        memberJpaRepository.updateMember(Optional.of(member1));
 
-        memberService.updateMember(member1Id, "회원2", 20, "01001001001", "qwe@qwe.com", "도시", "스트릿", "01012");
-        List<MemberDto> getMembers = memberRepository.findByName("회원2");
-        assertThat(getMembers).extracting("age").containsExactly(20);
+        Optional<Member> afterChangeMember = memberRepository.findById(member.getId());
+        Member changedMember = afterChangeMember.orElse(null);
+        List<Member> memberList = memberRepository.findAll();
+
+        assertThat(memberList).contains(changedMember);
+        assertThat(memberList).extracting("age").containsExactly(20);
     }
 
     /**
