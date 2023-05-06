@@ -33,6 +33,11 @@ public class ItemService {
     @Transactional
     public void updateItem(Long id, String name, int price, ItemType item, String description, int stockQuantity) {
         Optional<Item> changeItem = itemRepository.findById(id);
-        changeItem.get().changeItem(name, price, item, description, stockQuantity);
+        changeItem.get().builder()
+                .name(name)
+                .price(price)
+                .item(item)
+                .description(description)
+                .stockQuantity(stockQuantity).build();
     }
 }

@@ -5,10 +5,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/**
- * 주문 Order와 상품 Item은 ManyToMany이다. (최대한 onetoone, manytomnay는 쓰지말자)
- * OrderItem을 통해 ManyToOne, OneToMany로 하자
- */
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,12 +14,12 @@ public class OrderItem {
     @Column(name = "order_item_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY) //ManyToOne에서는 LAZY를 사용해야하는데 manytomany중간지점도 LAZY?
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
 
 
-    @ManyToOne(fetch = FetchType.LAZY) //ManyToOne에서는 LAZY를 사용해야하는데 manytomany중간지점도 LAZY?
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
 

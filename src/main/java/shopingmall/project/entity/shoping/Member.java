@@ -2,6 +2,7 @@ package shopingmall.project.entity.shoping;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -43,6 +44,7 @@ public class Member {
         this.address = address;
     }
 
+    @Builder
     public void changeMember(String name, int age, String phoneNumber, String email, Address address) {
         this.age = age;
         this.phoneNumber = phoneNumber;

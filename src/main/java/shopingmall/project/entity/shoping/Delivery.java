@@ -2,6 +2,7 @@ package shopingmall.project.entity.shoping;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shopingmall.project.type.DeliveryType;
@@ -24,6 +25,7 @@ public class Delivery {
     @Enumerated(EnumType.ORDINAL)
     private DeliveryType status;
 
+    @Builder
     public Delivery(Address address, DeliveryType status) {
         this.address = address;
         this.status = status;

@@ -30,7 +30,10 @@ public class OrderService {
         Optional<Member> member = memberRepository.findById(memberId);
         Optional<Item> item = itemRepository.findById(itemId);
 
-        Delivery delivery = new Delivery(member.get().getAddress(), DeliveryType.READY);
+        Delivery delivery = Delivery.builder()
+                .address(member.get().getAddress())
+                .status(DeliveryType.READY)
+                .build();
 
         OrderItem orderItem = OrderItem.createOrderItem(item.get(), item.get().getPrice(), count);
 

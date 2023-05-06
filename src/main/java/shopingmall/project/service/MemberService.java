@@ -42,7 +42,13 @@ public class MemberService {
     @Transactional
     public void updateMember(Long id, String name, int age, String phoneNumber, String email, String city, String street, String zipcode) {
         Optional<Member> member = memberRepository.findById(id);
-        member.get().changeMember(name, age, phoneNumber, email, new Address(city, street, zipcode));
+        member.get().builder()
+                .name(name)
+                .age(age)
+                .phoneNumber(phoneNumber)
+                .email(email)
+                .address(new Address(city, street, zipcode))
+                .build();
         memberJpaRepository.updateMember(member);
     }
 

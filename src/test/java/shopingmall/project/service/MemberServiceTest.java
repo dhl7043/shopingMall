@@ -1,6 +1,7 @@
 package shopingmall.project.service;
 
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +30,11 @@ class MemberServiceTest {
     @Autowired
     MemberRepository memberRepository;
 
+    @BeforeEach
+    void clean() {
+        memberRepository.deleteAll();
+    }
+
     @Test
     public void updateMember() {
         Member member = createMember();
@@ -36,7 +42,14 @@ class MemberServiceTest {
         Member member1 = memberRepository.findById(member.getId()).orElse(null);
         assertThat(member1).isEqualTo(member);
 
-        member1.changeMember("회원2", 20, "01001001001", "qwe@qwe.com", new Address("도시", "스트릿", "01012"));
+        member1.builder()
+                .name("회원2")
+                .age(20)
+                .phoneNumber("01001001001")
+                .email("qwe@qwe.com")
+                .address(new Address("도시", "스트릿", "10101"))
+                .build();
+
         memberJpaRepository.updateMember(Optional.of(member1));
 
         Optional<Member> afterChangeMember = memberRepository.findById(member.getId());

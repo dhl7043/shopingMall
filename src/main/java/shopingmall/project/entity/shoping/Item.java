@@ -2,6 +2,7 @@ package shopingmall.project.entity.shoping;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shopingmall.project.entity.baseEntity.BaseEntity;
@@ -58,6 +59,7 @@ public class Item extends BaseEntity {
         this.stockQuantity = stockQuantity;
     }
 
+    @Builder
     public void changeItem(String name, int price, ItemType item, String description, int stockQuantity) {
         this.price = price;
         this.item = item;
