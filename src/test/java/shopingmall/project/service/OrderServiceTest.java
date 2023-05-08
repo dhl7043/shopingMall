@@ -1,6 +1,7 @@
 package shopingmall.project.service;
 
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,10 +32,8 @@ class OrderServiceTest {
     @Autowired
     OrderService orderService;
 
-    /**
-     * 주문 테스트
-     */
     @Test
+    @DisplayName("주문")
     public void productOrder() {
         Member member = createMember();
         Item item = createItem();
@@ -49,10 +48,8 @@ class OrderServiceTest {
         assertEquals(90, item.getStockQuantity());
     }
 
-    /**
-     * 수량초과 테스트
-     */
     @Test
+    @DisplayName("수량 초과 오류")
     public void excessQuantity() {
 
         Member member = createMember();
@@ -64,10 +61,8 @@ class OrderServiceTest {
         });
     }
 
-    /**
-     * 주문취소 테스트
-     */
     @Test
+    @DisplayName("주문 취소")
     public void cancelOrder() {
 
         Member member = createMember();

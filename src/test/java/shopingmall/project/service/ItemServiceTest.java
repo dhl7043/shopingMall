@@ -1,6 +1,7 @@
 package shopingmall.project.service;
 
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,8 +23,8 @@ class ItemServiceTest {
     @Autowired
     ItemRepository itemRepository;
 
-    //String name, int price, ItemType item, String description, int stockQuantity, List<Category> categories
     @Test
+    @DisplayName("아이템 이름으로 검색")
     public void itemName() {
         Item item1 = new Item("item1", 1000, ItemType.FOOD, "아이템1", 100);
         Item item2 = new Item("item2", 2000, ItemType.CLOTHES, "아이템2", 50);
