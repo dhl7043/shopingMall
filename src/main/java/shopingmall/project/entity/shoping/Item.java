@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shopingmall.project.entity.baseEntity.BaseEntity;
 import shopingmall.project.exception.NotEnoughStockException;
+import shopingmall.project.request.ItemCreate;
 import shopingmall.project.type.ItemType;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Item extends BaseEntity {
     private int price;          //상품가격
 
     @Enumerated(EnumType.STRING)
-    private ItemType item;      //상품종류
+    private ItemType itemType;      //상품종류
     private String description; //상품설명
     private int stockQuantity;  //상품수량
 
@@ -51,19 +52,22 @@ public class Item extends BaseEntity {
         this.stockQuantity = restStock;
     }
 
-    public Item(String name, int price, ItemType item, String description, int stockQuantity) {
+    @Builder
+    public Item(String name, int price, ItemType itemType, String description, int stockQuantity) {
         this.name = name;
         this.price = price;
-        this.item = item;
+        this.itemType = itemType;
         this.description = description;
         this.stockQuantity = stockQuantity;
     }
 
-    @Builder
-    public void changeItem(String name, int price, ItemType item, String description, int stockQuantity) {
-        this.price = price;
-        this.item = item;
-        this.description = description;
-        this.stockQuantity = stockQuantity;
+    public ItemCreate changeItem(String name, int price, ItemType itemType, String description, int stockQuantity) {
+        return ItemCreate.builder()
+                .name(name)
+                .price(price)
+                .itemType(itemType)
+                .description(description)
+                .stockQuantity(stockQuantity)
+                .build();
     }
 }
