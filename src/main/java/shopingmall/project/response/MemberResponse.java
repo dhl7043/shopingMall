@@ -2,6 +2,7 @@ package shopingmall.project.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
+import shopingmall.project.entity.shoping.Address;
 
 @Getter
 public class MemberResponse {
@@ -9,15 +10,18 @@ public class MemberResponse {
     private Long memberId;
     private String username;
     private int age;
-    private Long teamId;
-    private String teamName;
+    private String phoneNumber;
+    private String email;
+    private Address address;
+
 
     @QueryProjection
-    public MemberResponse(Long memberId, String username, int age, Long teamId, String teamName) {
+    public MemberResponse(Long memberId, String username, int age, String phoneNumber, String email, Address address) {
         this.memberId = memberId;
         this.username = username;
         this.age = age;
-        this.teamId = teamId;
-        this.teamName = teamName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
     }
 }
