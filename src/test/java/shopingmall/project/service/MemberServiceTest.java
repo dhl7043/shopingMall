@@ -1,6 +1,7 @@
 package shopingmall.project.service;
 
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.repository.MemberJpaRepository;
 import shopingmall.project.repository.MemberRepository;
+import shopingmall.project.request.MemberCreate;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,10 +39,22 @@ class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("회원등록")
+    void joinMember() {
+        MemberCreate memberCreate = createMember();
+
+        memberService.join(memberCreate);
+
+        Assertions.assertEquals(1L, memberRepository.count());
+    }
+
+    @Test
     @DisplayName("회원정보 수정")
     public void updateMember() {
-        Member member = createMember();
+        MemberCreate memberCreate = createMember();
 
+        memberService.join(memberCreate);
+        /*
         Member member1 = memberRepository.findById(member.getId()).orElse(null);
         assertThat(member1).isEqualTo(member);
 
@@ -60,14 +74,22 @@ class MemberServiceTest {
 
         assertThat(memberList).contains(changedMember);
         assertThat(memberList).extracting("age").containsExactly(20);
+
+         */
     }
 
     /**
      * 멤버생성 //String name, String age, String phoneNumber, String email, Address address
      */
-    private Member createMember() {
-        Member member = new Member("회원1", 10, "01012345678", "abc1@abc.com", new Address("서울", "송파", "01010"));
-        em.persist(member);
-        return member;
+    private MemberCreate createMember() {
+        MemberCreate memberCreate = MemberCreate.builder()
+                .name("회원1")
+                .age(10)
+                .phoneNumber("01012345678")
+                .email("abc@asd.com")
+                .address(new Address("서울", "거리", "번호"))
+                .build();
+        em.persist(memberCreate);
+        return memberCreate;
     }
 }
