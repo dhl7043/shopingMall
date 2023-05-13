@@ -33,9 +33,7 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
-    /**
-     * 테스트용 멤버 생성
-     */
+    @Builder
     public Member(String name, int age, String phoneNumber, String email, Address address) {
         this.name = name;
         this.age = age;
@@ -44,7 +42,6 @@ public class Member {
         this.address = address;
     }
 
-    @Builder
     public void changeMember(String name, int age, String phoneNumber, String email, Address address) {
         this.age = age;
         this.phoneNumber = phoneNumber;
