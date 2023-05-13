@@ -8,6 +8,7 @@ import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.repository.MemberJpaRepository;
 import shopingmall.project.repository.MemberRepository;
+import shopingmall.project.request.MemberCreate;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,8 +24,18 @@ public class MemberService {
     /**
      * 회원가입
      */
-    @Transactional
-    public Long join(Member member) {
+    public Long join(MemberCreate memberCreate) {
+        Member member = Member.builder()
+                .name(memberCreate.getName())
+                .age(memberCreate.getAge())
+                .phoneNumber(memberCreate.getPhoneNumber())
+                .email(memberCreate.getEmail())
+                .address(new Address(
+                        memberCreate.getAddress().getCity(),
+                        memberCreate.getAddress().getStreet(),
+                        memberCreate.getAddress().getZipcode()))
+                .build();
+
 
         duplicateCheckMember(member);
         memberRepository.save(member);
@@ -53,7 +64,7 @@ public class MemberService {
     }
 
     private void duplicateCheckMember(Member member) {
-        List<MemberDto> findMembers = memberRepository.findByName(member.getName());
+        List<MemberCreate> findMembers = memberRepository.findByName(member.getName());
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
