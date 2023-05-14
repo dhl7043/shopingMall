@@ -46,6 +46,12 @@ class MemberServiceTest {
         memberService.join(memberCreate);
 
         Assertions.assertEquals(1L, memberRepository.count());
+        List<Member> memberList = memberRepository.findAll();
+        Member member = memberRepository.findById(1L).orElse(null);
+
+        assertThat(memberList).contains(member);
+        Assertions.assertEquals("회원1", memberList.get(0).getName());
+        Assertions.assertEquals(10, memberList.get(0).getAge());
     }
 
     @Test
