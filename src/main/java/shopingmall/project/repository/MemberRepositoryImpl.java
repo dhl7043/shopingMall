@@ -34,9 +34,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                         member.age,
                         member.phoneNumber,
                         member.email,
-                        member.address.city,
-                        member.address.street,
-                        member.address.zipcode))
+                        member.address))
                 .from(member)
                 .where(usernameEq(condition.getUsername()),
                         ageGoe(condition.getAgeGoe()),
