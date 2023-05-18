@@ -7,8 +7,13 @@
 Backend <img src="https://img.shields.io/badge/-SpringBoot-%23%236DB33F"> <img src="https://img.shields.io/badge/-JPA-%236DB33F"> <img src="https://img.shields.io/badge/-QueryDsl-0289CF"><br/>
 </div>
 <div>
-Frontend : <img src="https://img.shields.io/badge/-Thymeleaf-%23005F0F"><br/>
-</div>
-<div>
 인프라 : <img src="https://img.shields.io/badge/-MySql-%234479A1"> <img src="https://img.shields.io/badge/-Git-%23F05032"><br/>
+</div>
+<h2>이후 추가</h2>
+<div>
+로그인 -> Spring Security <br />
+댓글 -> 테이블 모델링 - 대댓글까지 구현 <br />
+프론트 -> react <br />
+배포 -> aws <br />
+초간단 모니터링 -> 프로메테우스, 그라파나<br />
 </div>
