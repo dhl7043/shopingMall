@@ -1,6 +1,7 @@
 package shopingmall.project.response;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Builder;
 import lombok.Getter;
 import shopingmall.project.entity.shoping.Address;
 
@@ -16,6 +17,7 @@ public class MemberResponse {
 
 
     @QueryProjection
+    @Builder
     public MemberResponse(Long memberId, String username, int age, String phoneNumber, String email, Address address) {
         this.memberId = memberId;
         this.username = username;
