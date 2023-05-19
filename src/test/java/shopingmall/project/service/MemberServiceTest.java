@@ -14,6 +14,7 @@ import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.repository.MemberJpaRepository;
 import shopingmall.project.repository.MemberRepository;
 import shopingmall.project.request.MemberCreate;
+import shopingmall.project.response.MemberResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,6 +56,22 @@ class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("회원 1명 조회")
+    void findMember() {
+        MemberCreate memberCreate = createMember();
+
+        Long memberId = memberService.join(memberCreate);
+
+        MemberResponse result = memberService.getMember(memberId);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1L, memberRepository.count());
+        Assertions.assertEquals("회원1", result.getUsername());
+        Assertions.assertEquals(10, result.getAge());
+
+    }
+
+    @Test
     @DisplayName("회원정보 수정")
     public void updateMember() {
         MemberCreate memberCreate = createMember();
@@ -84,6 +101,8 @@ class MemberServiceTest {
          */
     }
 
+
+
     /**
      * 멤버생성 //String name, String age, String phoneNumber, String email, Address address
      */
@@ -95,7 +114,6 @@ class MemberServiceTest {
                 .email("abc@asd.com")
                 .address(new Address("서울", "거리", "번호"))
                 .build();
-        em.persist(memberCreate);
         return memberCreate;
     }
 }
