@@ -9,6 +9,7 @@ import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.repository.MemberJpaRepository;
 import shopingmall.project.repository.MemberRepository;
 import shopingmall.project.request.MemberCreate;
+import shopingmall.project.response.MemberResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +41,22 @@ public class MemberService {
         duplicateCheckMember(member);
         memberRepository.save(member);
         return member.getId();
+    }
+
+    /**
+     * 멤버 단건조회
+     */
+    public MemberResponse getMember(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElse(null);// Exception 만들기
+
+        return MemberResponse.builder()
+                .memberId(member.getId())
+                .username(member.getName())
+                .age(member.getAge())
+                .phoneNumber(member.getPhoneNumber())
+                .email(member.getEmail())
+                .address(member.getAddress())
+                .build();
     }
 
     public List<Member> findMembers() {
