@@ -6,7 +6,7 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create # 운영시 절대 create, create-drop, update 사용하면 안됨 / 개발초기 create, update / 테스트 서버 update, validate / 스테이징,운영 validate, none
     properties:
       hibernate:
         # show_sql: true
@@ -15,4 +15,4 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
-  org.hibernate.type: trace
+#  org.hibernate.type: trace
