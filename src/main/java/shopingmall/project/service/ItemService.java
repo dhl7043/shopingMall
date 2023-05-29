@@ -19,6 +19,9 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
+    /**
+     * 상품등록
+     */
     @Transactional
     public void saveItem(ItemCreate itemCreate) {
         Item item = Item.builder()
@@ -29,6 +32,22 @@ public class ItemService {
                 .stockQuantity(itemCreate.getStockQuantity())
                 .build();
         itemRepository.save(item);
+    }
+
+    /**
+     * 상품 수정
+     */
+    @Transactional
+    public void updateItem(Long id, String name, int price, ItemType itemType, String description, int stockQuantity) {
+        Optional<Item> changeItem = itemRepository.findById(id);
+        changeItem.get().builder()
+                .name(name)
+                .price(price)
+                .itemType(itemType)
+                .description(description)
+                .stockQuantity(stockQuantity)
+                .build();
+        //TODO itemRepository.updateItem()
     }
 
     public ItemResponse findByItemId(Long itemId) {
@@ -50,16 +69,4 @@ public class ItemService {
 
 
 
-    @Transactional
-    public void updateItem(Long id, String name, int price, ItemType itemType, String description, int stockQuantity) {
-        Optional<Item> changeItem = itemRepository.findById(id);
-        changeItem.get().builder()
-                .name(name)
-                .price(price)
-                .itemType(itemType)
-                .description(description)
-                .stockQuantity(stockQuantity)
-                .build();
-        //TODO itemRepository.updateItem()
-    }
 }
