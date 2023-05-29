@@ -61,13 +61,13 @@ public class Item extends BaseEntity {
         this.stockQuantity = stockQuantity;
     }
 
-    public ItemCreate changeItem(String name, int price, ItemType itemType, String description, int stockQuantity) {
-        return ItemCreate.builder()
-                .name(name)
-                .price(price)
-                .itemType(itemType)
-                .description(description)
-                .stockQuantity(stockQuantity)
-                .build();
-    }
+//    public ItemCreate changeItem(String name, int price, ItemType itemType, String description, int stockQuantity) {
+//        return ItemCreate.builder()
+//                .name(name)
+//                .price(price)
+//                .itemType(itemType)
+//                .description(description)
+//                .stockQuantity(stockQuantity)
+//                .build();
+//    }
 }
