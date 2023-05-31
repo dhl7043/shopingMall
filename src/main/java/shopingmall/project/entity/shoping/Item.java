@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import shopingmall.project.entity.baseEntity.BaseEntity;
 import shopingmall.project.exception.NotEnoughStockException;
 import shopingmall.project.request.ItemCreate;
+import shopingmall.project.response.ItemResponse;
 import shopingmall.project.type.ItemType;
 
 import java.util.ArrayList;
@@ -30,8 +31,8 @@ public class Item extends BaseEntity {
     private String description; //상품설명
     private int stockQuantity;  //상품수량
 
-    @ManyToMany(mappedBy = "items")
-    private List<Category> categories = new ArrayList<>();
+//    @ManyToMany(mappedBy = "items")
+//    private List<Category> categories = new ArrayList<>();
 
     /**
      * stock 증가
@@ -73,7 +74,6 @@ public class Item extends BaseEntity {
     }
 
     //==비즈니스 로직==//
-
     /**
      * 상품 수정
      */
@@ -83,5 +83,19 @@ public class Item extends BaseEntity {
         this.itemType = itemType;
         this.description = description;
         this.stockQuantity = stockQuantity;
+    }
+
+    /**
+     * 단건 조회
+     */
+    public ItemResponse findOneItem() {
+        return ItemResponse.builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .itemType(itemType)
+                .description(description)
+                .stockQuantity(stockQuantity)
+                .build();
     }
 }
