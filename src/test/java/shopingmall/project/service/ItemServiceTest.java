@@ -12,11 +12,13 @@ import shopingmall.project.entity.shoping.Item;
 import shopingmall.project.repository.ItemRepository;
 import shopingmall.project.request.ItemCreate;
 import shopingmall.project.request.ItemEdit;
+import shopingmall.project.response.ItemResponse;
 import shopingmall.project.type.ItemType;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -40,11 +42,11 @@ class ItemServiceTest {
         Long itemId = createItem();
 
         // then
-        Assertions.assertEquals(1L, itemRepository.count());
+        assertEquals(1L, itemRepository.count());
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException());
-        Assertions.assertEquals("상품1", item.getName());
-        Assertions.assertEquals(1000, item.getPrice());
-        Assertions.assertEquals(ItemType.CLOTHES, item.getItemType());
+        assertEquals("상품1", item.getName());
+        assertEquals(1000, item.getPrice());
+        assertEquals(ItemType.CLOTHES, item.getItemType());
     }
 
     @Test
@@ -65,11 +67,27 @@ class ItemServiceTest {
         itemService.updateItem(itemId, itemEdit);
 
         // then
-        Assertions.assertEquals(1L, itemRepository.count());
+        assertEquals(1L, itemRepository.count());
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException());
-        Assertions.assertEquals("새로운 상품", item.getName());
-        Assertions.assertEquals(2000, item.getPrice());
-        Assertions.assertEquals(ItemType.CLOTHES, item.getItemType());
+        assertEquals("새로운 상품", item.getName());
+        assertEquals(2000, item.getPrice());
+        assertEquals(ItemType.CLOTHES, item.getItemType());
+    }
+
+    @Test
+    @DisplayName("아이템 1개 조회")
+    void findOneItem() {
+        // given
+        Long itemId = createItem();
+
+        // when
+        ItemResponse findOneItem = itemService.findByItemId(itemId);
+
+        // then
+        assertEquals("상품1", findOneItem.getName());
+        assertEquals(1000, findOneItem.getPrice());
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("조회 오류"));
+        assertEquals(ItemType.CLOTHES, item.getItemType());
     }
 
     @Test

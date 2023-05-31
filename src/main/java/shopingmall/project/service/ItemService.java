@@ -53,23 +53,17 @@ public class ItemService {
         itemRepository.save(item);
     }
 
+    /**
+     * 상품 단건 조회 (상품 하나 클릭시)
+     */
     public ItemResponse findByItemId(Long itemId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 아이템입니다."));
 
-        return ItemResponse.builder()
-                .id(item.getId())
-                .name(item.getName())
-                .price(item.getPrice())
-                .itemType(item.getItemType())
-                .description(item.getDescription())
-                .build();
+        return item.findOneItem();
     }
 
-    public List<Item> findItems() {
-        return itemRepository.findAll();
-    }
-
-
-
+    /**
+     * 상품 여러개 조회 (조건검색)
+     */
 }
