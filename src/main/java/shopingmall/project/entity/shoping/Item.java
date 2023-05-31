@@ -61,13 +61,27 @@ public class Item extends BaseEntity {
         this.stockQuantity = stockQuantity;
     }
 
-//    public ItemCreate changeItem(String name, int price, ItemType itemType, String description, int stockQuantity) {
-//        return ItemCreate.builder()
-//                .name(name)
-//                .price(price)
-//                .itemType(itemType)
-//                .description(description)
-//                .stockQuantity(stockQuantity)
-//                .build();
-//    }
+    //==생성 메서드==// new로 하는것보단 생성메서드를 사용하면 코드의 명확성과 유지보수성이 향상됨
+    public static ItemCreate createItem(String name, int price, ItemType itemType, String description, int stockQuantity) {
+        return ItemCreate.builder()
+                .name(name)
+                .price(price)
+                .itemType(itemType)
+                .description(description)
+                .stockQuantity(stockQuantity)
+                .build();
+    }
+
+    //==비즈니스 로직==//
+
+    /**
+     * 상품 수정
+     */
+    public void updateItem(String name, int price, ItemType itemType, String description, int stockQuantity) {
+        this.name = name;
+        this.price = price;
+        this.itemType = itemType;
+        this.description = description;
+        this.stockQuantity = stockQuantity;
+    }
 }
