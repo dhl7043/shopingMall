@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shopingmall.project.entity.shoping.Item;
 import shopingmall.project.repository.ItemRepository;
 import shopingmall.project.request.ItemCreate;
+import shopingmall.project.request.ItemEdit;
 import shopingmall.project.type.ItemType;
 
 import java.util.List;
@@ -36,11 +37,11 @@ class ItemServiceTest {
     @Test
     @DisplayName("상품 등록")
     void saveItem() {
-        createOneItem();
+        Long itemId = createItem();
 
         // then
         Assertions.assertEquals(1L, itemRepository.count());
-        Item item = itemRepository.findAll().get(0);
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException());
         Assertions.assertEquals("상품1", item.getName());
         Assertions.assertEquals(1000, item.getPrice());
         Assertions.assertEquals(ItemType.CLOTHES, item.getItemType());
@@ -50,22 +51,25 @@ class ItemServiceTest {
     @DisplayName("상품 수정")
     void updateItem() {
         // given
-        Item savedItem = Item.builder()
-                .name("저장된 아이템")
-                .price(2000)
-                .stockQuantity(5)
-                .description("설명")
-                .itemType(ItemType.FOOD)
-                .build();
-
-        itemRepository.save(savedItem);
-
-
+        Long itemId = createItem();
 
         // when
+        ItemEdit itemEdit = ItemEdit.builder()
+                .name("새로운 상품")
+                .price(2000)
+                .itemType(ItemType.CLOTHES)
+                .description("설명")
+                .stockQuantity(20)
+                .build();
+
+        itemService.updateItem(itemId, itemEdit);
 
         // then
-
+        Assertions.assertEquals(1L, itemRepository.count());
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException());
+        Assertions.assertEquals("새로운 상품", item.getName());
+        Assertions.assertEquals(2000, item.getPrice());
+        Assertions.assertEquals(ItemType.CLOTHES, item.getItemType());
     }
 
     @Test
@@ -82,17 +86,9 @@ class ItemServiceTest {
     }
 
 
-    private void createOneItem() {
-        // given
-        ItemCreate itemCreate = ItemCreate.builder()
-                .name("상품1")
-                .price(1000)
-                .stockQuantity(10)
-                .description("설명입니다.")
-                .itemType(ItemType.CLOTHES)
-                .build();
+    private Long createItem() {
+        ItemCreate itemCreate = Item.createItem("상품1", 1000, ItemType.CLOTHES, "설명입니다.", 10);
 
-        // when
-        itemService.saveItem(itemCreate);
+        return itemService.saveItem(itemCreate);
     }
 }
