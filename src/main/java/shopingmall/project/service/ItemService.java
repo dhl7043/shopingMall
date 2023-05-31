@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shopingmall.project.entity.shoping.Item;
 import shopingmall.project.repository.ItemRepository;
 import shopingmall.project.request.ItemCreate;
+import shopingmall.project.request.ItemEdit;
 import shopingmall.project.response.ItemResponse;
 import shopingmall.project.type.ItemType;
 
@@ -23,7 +24,7 @@ public class ItemService {
      * 상품등록
      */
     @Transactional
-    public void saveItem(ItemCreate itemCreate) {
+    public Long saveItem(ItemCreate itemCreate) {
         Item item = Item.builder()
                 .name(itemCreate.getName())
                 .price(itemCreate.getPrice())
@@ -31,23 +32,25 @@ public class ItemService {
                 .description(itemCreate.getDescription())
                 .stockQuantity(itemCreate.getStockQuantity())
                 .build();
-        itemRepository.save(item);
+        Item savedItem = itemRepository.save(item);
+        return savedItem.getId();
     }
 
     /**
      * 상품 수정
      */
     @Transactional
-    public void updateItem(Long id, String name, int price, ItemType itemType, String description, int stockQuantity) {
-        Optional<Item> changeItem = itemRepository.findById(id);
-        changeItem.get().builder()
-                .name(name)
-                .price(price)
-                .itemType(itemType)
-                .description(description)
-                .stockQuantity(stockQuantity)
-                .build();
-        //TODO itemRepository.updateItem()
+    public void updateItem(Long id, ItemEdit itemEdit) {
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("아이템을 조회할 수 없습니다."));
+
+        item.updateItem(itemEdit.getName(),
+                itemEdit.getPrice(),
+                itemEdit.getItemType(),
+                itemEdit.getDescription(),
+                itemEdit.getStockQuantity());
+
+        itemRepository.save(item);
     }
 
     public ItemResponse findByItemId(Long itemId) {
