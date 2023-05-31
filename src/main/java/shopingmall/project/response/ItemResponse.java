@@ -17,7 +17,7 @@ public class ItemResponse {
     private final int price;
     private final ItemType itemType;
     private final String description;
-    private final List<Category> categories = new ArrayList<>();
+    private final int stockQuantity;
 
     public ItemResponse(Item item) {
         this.id = item.getId();
@@ -25,14 +25,16 @@ public class ItemResponse {
         this.price = item.getPrice();
         this.itemType = item.getItemType();
         this.description = item.getDescription();
+        this.stockQuantity = item.getStockQuantity();
     }
 
     @Builder
-    public ItemResponse(Long id, String name, int price, ItemType itemType, String description) {
+    public ItemResponse(Long id, String name, int price, ItemType itemType, String description, int stockQuantity) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.itemType = itemType;
         this.description = description;
+        this.stockQuantity = stockQuantity;
     }
 }
