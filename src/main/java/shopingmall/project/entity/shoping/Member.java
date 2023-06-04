@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shopingmall.project.request.MemberCreate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +43,26 @@ public class Member {
         this.address = address;
     }
 
-    public void changeMember(String name, int age, String phoneNumber, String email, Address address) {
+    /**
+     * 생성메서드 회원가입
+     */
+    public static MemberCreate createMember(String name, int age, String phoneNumber, String email, Address address) {
+        return MemberCreate.builder()
+                .name(name)
+                .age(age)
+                .phoneNumber(phoneNumber)
+                .email(email)
+                .address(address)
+                .build();
+    }
+
+    /**
+     * 회원 정보 수정
+     */
+    public void changeMember(String name, int age, String phoneNumber, Address address) {
+        this.name = name;
         this.age = age;
         this.phoneNumber = phoneNumber;
-        this.email = email;
         this.address = address;
     }
 }
