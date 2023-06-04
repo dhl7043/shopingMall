@@ -27,17 +27,19 @@ public class OrderService {
     @Transactional
     public Long order(Long memberId, Long itemId, int count) {
 
-        Optional<Member> member = memberRepository.findById(memberId);
-        Optional<Item> item = itemRepository.findById(itemId);
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
 
         Delivery delivery = Delivery.builder()
-                .address(member.get().getAddress())
+                .address(member.getAddress())
                 .status(DeliveryType.READY)
                 .build();
 
-        OrderItem orderItem = OrderItem.createOrderItem(item.get(), item.get().getPrice(), count);
+        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
 
-        Order order = Order.createOrder(member.get(), delivery, orderItem);
+        Order order = Order.createOrder(member, delivery, orderItem);
 
         orderRepository.save(order);
 
