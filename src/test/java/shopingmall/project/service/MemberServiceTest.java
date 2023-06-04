@@ -8,18 +8,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import shopingmall.project.dto.MemberDto;
 import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.repository.MemberJpaRepository;
 import shopingmall.project.repository.MemberRepository;
 import shopingmall.project.request.MemberCreate;
+import shopingmall.project.request.MemberEdit;
 import shopingmall.project.response.MemberResponse;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -42,78 +43,60 @@ class MemberServiceTest {
     @Test
     @DisplayName("회원등록")
     void joinMember() {
-        MemberCreate memberCreate = createMember();
+        Long memberId = createMember();
 
-        memberService.join(memberCreate);
-
-        Assertions.assertEquals(1L, memberRepository.count());
+        assertEquals(1L, memberRepository.count());
         List<Member> memberList = memberRepository.findAll();
-        Member member = memberRepository.findById(1L).orElse(null);
+        Member member = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
 
         assertThat(memberList).contains(member);
-        Assertions.assertEquals("회원1", memberList.get(0).getName());
-        Assertions.assertEquals(10, memberList.get(0).getAge());
+        assertEquals("회원1", memberList.get(0).getName());
+        assertEquals(10, memberList.get(0).getAge());
     }
 
     @Test
     @DisplayName("회원 1명 조회")
     void findMember() {
-        MemberCreate memberCreate = createMember();
-
-        Long memberId = memberService.join(memberCreate);
+        Long memberId = createMember();
 
         MemberResponse result = memberService.getMember(memberId);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(1L, memberRepository.count());
-        Assertions.assertEquals("회원1", result.getUsername());
-        Assertions.assertEquals(10, result.getAge());
+        assertNotNull(result);
+        assertEquals(1L, memberRepository.count());
+        assertEquals("회원1", result.getUsername());
+        assertEquals(10, result.getAge());
 
     }
 
     @Test
     @DisplayName("회원정보 수정")
-    public void updateMember() {
-        MemberCreate memberCreate = createMember();
+    void updateMember() {
+        Long memberId = createMember();
 
-        memberService.join(memberCreate);
-        /*
-        Member member1 = memberRepository.findById(member.getId()).orElse(null);
-        assertThat(member1).isEqualTo(member);
-
-        member1.builder()
+        MemberEdit memberEdit = MemberEdit.builder()
                 .name("회원2")
                 .age(20)
                 .phoneNumber("01001001001")
-                .email("qwe@qwe.com")
                 .address(new Address("도시", "스트릿", "10101"))
                 .build();
 
-        memberJpaRepository.updateMember(Optional.of(member1));
+        memberService.updateMember(memberId, memberEdit);
 
-        Optional<Member> afterChangeMember = memberRepository.findById(member.getId());
-        Member changedMember = afterChangeMember.orElse(null);
-        List<Member> memberList = memberRepository.findAll();
-
-        assertThat(memberList).contains(changedMember);
-        assertThat(memberList).extracting("age").containsExactly(20);
-
-         */
+        // then
+        Member member = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
+        assertEquals("회원2", member.getName());
+        assertEquals(20, member.getAge());
+        assertEquals("도시", member.getAddress().getCity());
     }
 
 
 
     /**
-     * 멤버생성 //String name, String age, String phoneNumber, String email, Address address
+     * 멤버 생성
      */
-    private MemberCreate createMember() {
-        MemberCreate memberCreate = MemberCreate.builder()
-                .name("회원1")
-                .age(10)
-                .phoneNumber("01012345678")
-                .email("abc@asd.com")
-                .address(new Address("서울", "거리", "번호"))
-                .build();
-        return memberCreate;
+    private Long createMember() {
+        MemberCreate memberCreate = Member.createMember("회원1", 10, "01012345678", "asd@asd.com", new Address("서울", "거리", "01010"));
+
+        return memberService.join(memberCreate);
     }
 }
