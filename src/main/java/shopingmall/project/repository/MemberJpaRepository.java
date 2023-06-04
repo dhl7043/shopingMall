@@ -24,16 +24,16 @@ public class MemberJpaRepository {
     }
 
     @Transactional
-    public void updateMember(Optional<Member> member) {
+    public void updateMember(Member member) {
 
         JPAUpdateClause updateMember = queryFactory
                 .update(qMember)
-                .set(qMember.name, member.get().getName())
-                .set(qMember.age, member.get().getAge())
-                .set(qMember.phoneNumber, member.get().getPhoneNumber())
-                .set(qMember.email, member.get().getEmail())
-                .set(qMember.address, member.get().getAddress())
-                .where(qMember.id.eq(member.get().getId()));
+                .set(qMember.name, member.getName())
+                .set(qMember.age, member.getAge())
+                .set(qMember.phoneNumber, member.getPhoneNumber())
+                .set(qMember.email, member.getEmail())
+                .set(qMember.address, member.getAddress())
+                .where(qMember.id.eq(member.getId()));
 
         updateMember.execute();
     }

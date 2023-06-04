@@ -2,8 +2,10 @@ package shopingmall.project.request;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import shopingmall.project.entity.shoping.Address;
 
+@ToString
 @Getter
 public class MemberCreate {
 
