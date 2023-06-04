@@ -43,7 +43,7 @@ class ItemServiceTest {
 
         // then
         assertEquals(1L, itemRepository.count());
-        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException());
+        Item item = itemRepository.findById(itemId).orElseThrow(RuntimeException::new);
         assertEquals("상품1", item.getName());
         assertEquals(1000, item.getPrice());
         assertEquals(ItemType.CLOTHES, item.getItemType());
@@ -81,11 +81,11 @@ class ItemServiceTest {
         Long itemId = createItem();
 
         // when
-        ItemResponse findOneItem = itemService.findByItemId(itemId);
+        ItemResponse result = itemService.findByItemId(itemId);
 
         // then
-        assertEquals("상품1", findOneItem.getName());
-        assertEquals(1000, findOneItem.getPrice());
+        assertEquals("상품1", result.getName());
+        assertEquals(1000, result.getPrice());
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("조회 오류"));
         assertEquals(ItemType.CLOTHES, item.getItemType());
     }
@@ -104,6 +104,9 @@ class ItemServiceTest {
     }
 
 
+    /**
+     * 상품 생성
+     */
     private Long createItem() {
         ItemCreate itemCreate = Item.createItem("상품1", 1000, ItemType.CLOTHES, "설명입니다.", 10);
 
