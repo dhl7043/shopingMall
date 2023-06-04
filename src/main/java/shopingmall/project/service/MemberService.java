@@ -9,6 +9,7 @@ import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.repository.MemberJpaRepository;
 import shopingmall.project.repository.MemberRepository;
 import shopingmall.project.request.MemberCreate;
+import shopingmall.project.request.MemberEdit;
 import shopingmall.project.response.MemberResponse;
 
 import java.util.List;
@@ -63,21 +64,21 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Optional<Member> findOne(Long memberId) {
-        return memberRepository.findById(memberId);
-    }
-
+    /**
+     * 회원정보 수정
+     */
     @Transactional
-    public void updateMember(Long id, String name, int age, String phoneNumber, String email, String city, String street, String zipcode) {
-        Optional<Member> member = memberRepository.findById(id);
-        member.get().builder()
-                .name(name)
-                .age(age)
-                .phoneNumber(phoneNumber)
-                .email(email)
-                .address(new Address(city, street, zipcode))
-                .build();
-        memberJpaRepository.updateMember(member);
+    public void updateMember(Long id, MemberEdit memberEdit) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("회원을 조회할 수 없습니다."));
+
+        member.changeMember(
+                memberEdit.getName(),
+                memberEdit.getAge(),
+                member.getPhoneNumber(),
+                member.getAddress());
+
+        memberRepository.save(member);
     }
 
     private void duplicateCheckMember(Member member) {
