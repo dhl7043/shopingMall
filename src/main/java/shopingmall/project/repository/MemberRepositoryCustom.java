@@ -7,5 +7,5 @@ import shopingmall.project.response.MemberResponse;
 
 public interface MemberRepositoryCustom {
 
-    Page<MemberResponse> searchPageComplex(MemberSearchCondition condition, Pageable pageable);
+    Page<MemberResponse> memberSearchPageComplex(MemberSearchCondition condition, Pageable pageable);
 }

@@ -7,7 +7,7 @@ import shopingmall.project.request.MemberCreate;
 
 import java.util.List;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
 
     List<MemberCreate> findByName(String name);
 }

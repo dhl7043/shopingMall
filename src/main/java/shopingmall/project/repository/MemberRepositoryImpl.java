@@ -26,7 +26,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public Page<MemberResponse> searchPageComplex(MemberSearchCondition condition, Pageable pageable) {
+    public Page<MemberResponse> memberSearchPageComplex(MemberSearchCondition condition, Pageable pageable) {
         List<MemberResponse> content = queryFactory
                 .select(new QMemberResponse(
                         member.id.as("memberId"),
@@ -38,7 +38,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 .from(member)
                 .where(usernameEq(condition.getUsername()),
                         ageGoe(condition.getAgeGoe()),
-                        ageLoe(condition.getAgeLoe()))
+                        ageLoe(condition.getAgeLoe()),
+                        phoneNumberEq(condition.getEmail()),
+                        emailEq(condition.getEmail()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -48,11 +50,16 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 .from(member)
                 .where(usernameEq(condition.getUsername()),
                         ageGoe(condition.getAgeGoe()),
-                        ageLoe(condition.getAgeLoe()));
+                        ageLoe(condition.getAgeLoe()),
+                        phoneNumberEq(condition.getPhoneNumber()),
+                        emailEq(condition.getEmail()));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
     }
 
+    /**
+     * 검색조건
+     */
     private BooleanExpression usernameEq(String username) {
         return hasText(username) ? member.name.eq(username) : null;
     }
@@ -63,5 +70,13 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
     private BooleanExpression ageLoe(Integer ageLoe) {
         return ageLoe != null ? member.age.loe(ageLoe) : null;
+    }
+
+    private BooleanExpression phoneNumberEq(String phoneNumber) {
+        return hasText(phoneNumber) ? member.phoneNumber.eq(phoneNumber) : null;
+    }
+
+    private BooleanExpression emailEq(String email) {
+        return hasText(email) ? member.email.eq(email) : null;
     }
 }
