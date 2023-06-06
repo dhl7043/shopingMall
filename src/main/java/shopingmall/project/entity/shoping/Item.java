@@ -90,7 +90,7 @@ public class Item extends BaseEntity {
      */
     public ItemResponse findOneItem() {
         return ItemResponse.builder()
-                .id(id)
+                .itemId(id)
                 .name(name)
                 .price(price)
                 .itemType(itemType)

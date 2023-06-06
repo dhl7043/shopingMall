@@ -1,36 +1,24 @@
 package shopingmall.project.response;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
-import shopingmall.project.entity.shoping.Category;
-import shopingmall.project.entity.shoping.Item;
 import shopingmall.project.type.ItemType;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 public class ItemResponse {
 
-    private final Long id;
-    private final String name;
-    private final int price;
-    private final ItemType itemType;
-    private final String description;
-    private final int stockQuantity;
+    private Long itemId;
+    private String name;
+    private int price;
+    private ItemType itemType;
+    private String description;
+    private int stockQuantity;
 
-    public ItemResponse(Item item) {
-        this.id = item.getId();
-        this.name = item.getName();
-        this.price = item.getPrice();
-        this.itemType = item.getItemType();
-        this.description = item.getDescription();
-        this.stockQuantity = item.getStockQuantity();
-    }
-
+    @QueryProjection
     @Builder
-    public ItemResponse(Long id, String name, int price, ItemType itemType, String description, int stockQuantity) {
-        this.id = id;
+    public ItemResponse(Long itemId, String name, int price, ItemType itemType, String description, int stockQuantity) {
+        this.itemId = itemId;
         this.name = name;
         this.price = price;
         this.itemType = itemType;
