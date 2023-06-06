@@ -1,19 +1,20 @@
 package shopingmall.project.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shopingmall.project.dto.MemberDto;
 import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.repository.MemberJpaRepository;
 import shopingmall.project.repository.MemberRepository;
 import shopingmall.project.request.MemberCreate;
 import shopingmall.project.request.MemberEdit;
+import shopingmall.project.request.MemberSearchCondition;
 import shopingmall.project.response.MemberResponse;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,6 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final MemberJpaRepository memberJpaRepository;
 
     /**
      * 회원가입
@@ -52,7 +52,7 @@ public class MemberService {
 
         return MemberResponse.builder()
                 .memberId(member.getId())
-                .username(member.getName())
+                .name(member.getName())
                 .age(member.getAge())
                 .phoneNumber(member.getPhoneNumber())
                 .email(member.getEmail())
@@ -60,8 +60,11 @@ public class MemberService {
                 .build();
     }
 
-    public List<Member> findMembers() {
-        return memberRepository.findAll();
+    /**
+     * 회원검색 (조건조회 가능)
+     */
+    public Page<MemberResponse> searchMembers(MemberSearchCondition condition, Pageable pageable) {
+        return memberRepository.memberSearchPageComplex(condition, pageable);
     }
 
     /**
@@ -76,13 +79,16 @@ public class MemberService {
                 memberEdit.getName(),
                 memberEdit.getAge(),
                 member.getPhoneNumber(),
-                member.getAddress());
+                new Address(
+                        memberEdit.getAddress().getCity(),
+                        memberEdit.getAddress().getStreet(),
+                        memberEdit.getAddress().getZipcode()));
 
         memberRepository.save(member);
     }
 
     private void duplicateCheckMember(Member member) {
-        List<MemberCreate> findMembers = memberRepository.findByName(member.getName());
+        List<MemberCreate> findMembers = memberRepository.findByName(member.getEmail());
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }

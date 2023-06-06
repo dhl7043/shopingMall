@@ -9,7 +9,7 @@ import shopingmall.project.entity.shoping.Address;
 public class MemberResponse {
 
     private Long memberId;
-    private String username;
+    private String name;
     private int age;
     private String phoneNumber;
     private String email;
@@ -18,9 +18,9 @@ public class MemberResponse {
 
     @QueryProjection
     @Builder
-    public MemberResponse(Long memberId, String username, int age, String phoneNumber, String email, Address address) {
+    public MemberResponse(Long memberId, String name, int age, String phoneNumber, String email, Address address) {
         this.memberId = memberId;
-        this.username = username;
+        this.name = name;
         this.age = age;
         this.phoneNumber = phoneNumber;
         this.email = email;
