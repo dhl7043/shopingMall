@@ -1,12 +1,13 @@
 package shopingmall.project.service;
 
 import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Member;
@@ -14,10 +15,10 @@ import shopingmall.project.repository.MemberJpaRepository;
 import shopingmall.project.repository.MemberRepository;
 import shopingmall.project.request.MemberCreate;
 import shopingmall.project.request.MemberEdit;
+import shopingmall.project.request.MemberSearchCondition;
 import shopingmall.project.response.MemberResponse;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -63,7 +64,7 @@ class MemberServiceTest {
 
         assertNotNull(result);
         assertEquals(1L, memberRepository.count());
-        assertEquals("회원1", result.getUsername());
+        assertEquals("회원1", result.getName());
         assertEquals(10, result.getAge());
 
     }
@@ -89,6 +90,24 @@ class MemberServiceTest {
         assertEquals("도시", member.getAddress().getCity());
     }
 
+    @Test
+    @DisplayName("회원 검색")
+    void searchMember() {
+        // given
+        createMembers();
+
+        MemberSearchCondition condition = new MemberSearchCondition();
+        condition.setAgeGoe(10);
+        condition.setAgeLoe(20);
+
+        PageRequest pageRequest = PageRequest.of(0, 2);
+        // when
+        Page<MemberResponse> results = memberService.searchMembers(condition, pageRequest);
+
+        // then
+        assertThat(results.getSize()).isEqualTo(2);
+        assertThat(results).extracting("name").containsExactly("회원1", "회원2");
+    }
 
 
     /**
@@ -98,5 +117,19 @@ class MemberServiceTest {
         MemberCreate memberCreate = Member.createMember("회원1", 10, "01012345678", "asd@asd.com", new Address("서울", "거리", "01010"));
 
         return memberService.join(memberCreate);
+    }
+
+    private void createMembers() {
+        MemberCreate memberCreate1 = Member.createMember("회원1", 10, "01012345678", "asd@asd.com", new Address("서울", "거리", "01010"));
+        MemberCreate memberCreate2 = Member.createMember("회원2", 20, "01043218765", "test2@test.com", new Address("경기도", "거리2", "01234"));
+        MemberCreate memberCreate3 = Member.createMember("회원3", 30, "01012457812", "email@naver.com", new Address("인천", "거리3", "54321"));
+        MemberCreate memberCreate4 = Member.createMember("회원4", 40, "01012457812", "email@kakao.com", new Address("서울", "거리4", "12345"));
+        MemberCreate memberCreate5 = Member.createMember("회원5", 50, "01012457812", "email@daum.com", new Address("부산", "거리5", "67895"));
+
+        memberService.join(memberCreate1);
+        memberService.join(memberCreate2);
+        memberService.join(memberCreate3);
+        memberService.join(memberCreate4);
+        memberService.join(memberCreate5);
     }
 }
