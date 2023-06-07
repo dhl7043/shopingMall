@@ -1,17 +1,17 @@
 package shopingmall.project.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shopingmall.project.dto.request.ItemSearchCondition;
 import shopingmall.project.entity.shoping.Item;
+import shopingmall.project.exception.NotFoundItemException;
 import shopingmall.project.repository.ItemRepository;
-import shopingmall.project.request.ItemCreate;
-import shopingmall.project.request.ItemEdit;
-import shopingmall.project.response.ItemResponse;
-import shopingmall.project.type.ItemType;
-
-import java.util.List;
-import java.util.Optional;
+import shopingmall.project.dto.request.ItemCreate;
+import shopingmall.project.dto.request.ItemEdit;
+import shopingmall.project.dto.response.ItemResponse;
 
 @Service
 @Transactional(readOnly = true)
@@ -42,7 +42,7 @@ public class ItemService {
     @Transactional
     public void updateItem(Long id, ItemEdit itemEdit) {
         Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("아이템을 조회할 수 없습니다."));
+                .orElseThrow(NotFoundItemException::new);
 
         item.updateItem(itemEdit.getName(),
                 itemEdit.getPrice(),
@@ -58,7 +58,7 @@ public class ItemService {
      */
     public ItemResponse findByItemId(Long itemId) {
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 아이템입니다."));
+                .orElseThrow(NotFoundItemException::new);
 
         return item.findOneItem();
     }
@@ -66,4 +66,7 @@ public class ItemService {
     /**
      * 상품 여러개 조회 (조건검색)
      */
+    public Page<ItemResponse> searchItems(ItemSearchCondition condition, Pageable pageable) {
+        return itemRepository.itemSearchPageComplex(condition, pageable);
+    }
 }
