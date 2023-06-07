@@ -1,4 +1,4 @@
-package shopingmall.project.request;
+package shopingmall.project.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;

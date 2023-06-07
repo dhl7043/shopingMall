@@ -7,12 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shopingmall.project.entity.baseEntity.BaseEntity;
 import shopingmall.project.exception.NotEnoughStockException;
-import shopingmall.project.request.ItemCreate;
-import shopingmall.project.response.ItemResponse;
+import shopingmall.project.dto.request.ItemCreate;
+import shopingmall.project.dto.response.ItemResponse;
 import shopingmall.project.type.ItemType;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity
@@ -48,7 +45,7 @@ public class Item extends BaseEntity {
         int restStock = this.stockQuantity - quantity;
 
         if (restStock < 0) {
-            throw new NotEnoughStockException("수량이 부족합니다.");
+            throw new NotEnoughStockException();
         }
         this.stockQuantity = restStock;
     }

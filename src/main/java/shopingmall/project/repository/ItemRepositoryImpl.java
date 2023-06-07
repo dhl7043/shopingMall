@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import shopingmall.project.entity.shoping.Item;
-import shopingmall.project.request.ItemSearchCondition;
-import shopingmall.project.response.ItemResponse;
-import shopingmall.project.response.QItemResponse;
+import shopingmall.project.dto.request.ItemSearchCondition;
+import shopingmall.project.dto.response.ItemResponse;
+import shopingmall.project.dto.response.QItemResponse;
 import shopingmall.project.type.ItemType;
 
 import java.util.List;

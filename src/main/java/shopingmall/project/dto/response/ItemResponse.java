@@ -1,4 +1,4 @@
-package shopingmall.project.response;
+package shopingmall.project.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;

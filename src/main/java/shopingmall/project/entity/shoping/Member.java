@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shopingmall.project.request.MemberCreate;
+import shopingmall.project.dto.request.MemberCreate;
 
 import java.util.ArrayList;
 import java.util.List;

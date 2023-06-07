@@ -1,29 +1,26 @@
-package shopingmall.project.request;
+package shopingmall.project.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import shopingmall.project.entity.shoping.Address;
 
-/**
- * 회원 정보 수정
- * email -> id 수정불가
- */
-
-@Getter
 @ToString
-public class MemberEdit {
+@Getter
+public class MemberCreate {
 
     private String name;
     private int age;
     private String phoneNumber;
+    private String email;
     private Address address;
 
     @Builder
-    public MemberEdit(String name, int age, String phoneNumber, Address address) {
+    public MemberCreate(String name, int age, String phoneNumber, String email, Address address) {
         this.name = name;
         this.age = age;
         this.phoneNumber = phoneNumber;
+        this.email = email;
         this.address = address;
     }
 }

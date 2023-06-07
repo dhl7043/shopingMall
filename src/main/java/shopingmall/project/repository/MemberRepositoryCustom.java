@@ -2,8 +2,8 @@ package shopingmall.project.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import shopingmall.project.request.MemberSearchCondition;
-import shopingmall.project.response.MemberResponse;
+import shopingmall.project.dto.request.MemberSearchCondition;
+import shopingmall.project.dto.response.MemberResponse;
 
 public interface MemberRepositoryCustom {
 

@@ -1,4 +1,4 @@
-package shopingmall.project.request;
+package shopingmall.project.dto.request;
 
 import lombok.Data;
 import lombok.Getter;
