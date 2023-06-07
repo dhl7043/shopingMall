@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Member;
-import shopingmall.project.repository.MemberJpaRepository;
+import shopingmall.project.exception.NotFoundMemberException;
 import shopingmall.project.repository.MemberRepository;
-import shopingmall.project.request.MemberCreate;
-import shopingmall.project.request.MemberEdit;
-import shopingmall.project.request.MemberSearchCondition;
-import shopingmall.project.response.MemberResponse;
+import shopingmall.project.dto.request.MemberCreate;
+import shopingmall.project.dto.request.MemberEdit;
+import shopingmall.project.dto.request.MemberSearchCondition;
+import shopingmall.project.dto.response.MemberResponse;
 
 import java.util.List;
 
@@ -48,7 +48,8 @@ public class MemberService {
      * 멤버 단건조회
      */
     public MemberResponse getMember(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElse(null);// Exception 만들기
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
 
         return MemberResponse.builder()
                 .memberId(member.getId())
@@ -73,7 +74,7 @@ public class MemberService {
     @Transactional
     public void updateMember(Long id, MemberEdit memberEdit) {
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("회원을 조회할 수 없습니다."));
+                .orElseThrow(NotFoundMemberException::new);
 
         member.changeMember(
                 memberEdit.getName(),

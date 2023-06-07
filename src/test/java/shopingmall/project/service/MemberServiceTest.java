@@ -13,10 +13,10 @@ import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.repository.MemberJpaRepository;
 import shopingmall.project.repository.MemberRepository;
-import shopingmall.project.request.MemberCreate;
-import shopingmall.project.request.MemberEdit;
-import shopingmall.project.request.MemberSearchCondition;
-import shopingmall.project.response.MemberResponse;
+import shopingmall.project.dto.request.MemberCreate;
+import shopingmall.project.dto.request.MemberEdit;
+import shopingmall.project.dto.request.MemberSearchCondition;
+import shopingmall.project.dto.response.MemberResponse;
 
 import java.util.List;
 
