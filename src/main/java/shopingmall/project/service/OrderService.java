@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shopingmall.project.entity.shoping.*;
+import shopingmall.project.exception.NotFoundItemException;
+import shopingmall.project.exception.NotFoundMemberException;
+import shopingmall.project.exception.NotFoundOrderException;
 import shopingmall.project.repository.ItemRepository;
 import shopingmall.project.repository.MemberRepository;
 import shopingmall.project.repository.OrderRepository;
@@ -28,9 +31,9 @@ public class OrderService {
     public Long order(Long memberId, Long itemId, int count) {
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+                .orElseThrow(NotFoundMemberException::new);
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
+                .orElseThrow(NotFoundItemException::new);
 
         Delivery delivery = Delivery.builder()
                 .address(member.getAddress())
@@ -51,7 +54,8 @@ public class OrderService {
      */
     @Transactional
     public void cancelOrder(Long orderId) {
-        Optional<Order> order = orderRepository.findById(orderId);
-        order.get().cancel();
+        Order order = orderRepository.findById(orderId).orElseThrow(NotFoundOrderException::new);
+
+        order.cancel();
     }
 }
