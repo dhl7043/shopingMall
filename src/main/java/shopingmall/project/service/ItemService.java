@@ -69,4 +69,14 @@ public class ItemService {
     public Page<ItemResponse> searchItems(ItemSearchCondition condition, Pageable pageable) {
         return itemRepository.itemSearchPageComplex(condition, pageable);
     }
+
+    /**
+     * 상품 삭제
+     */
+    public void deleteItem(Long id) {
+        Item item = itemRepository.findById(id)
+                .orElseThrow(NotFoundItemException::new);
+
+        itemRepository.delete(item);
+    }
 }
