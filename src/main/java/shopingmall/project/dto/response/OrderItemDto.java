@@ -10,7 +10,7 @@ import shopingmall.project.type.ItemType;
  */
 
 @Getter
-public class ItemOrderDto {
+public class OrderItemDto {
 
     private Long itemId;
     private String itemName;
@@ -20,7 +20,7 @@ public class ItemOrderDto {
 
     @QueryProjection
     @Builder
-    public ItemOrderDto(Long itemId, String itemName, int itemPrice, ItemType itemType, String description, int itemOrderPrice, int itemOrderCount) {
+    public OrderItemDto(Long itemId, String itemName, int itemPrice, ItemType itemType, String description) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.itemPrice = itemPrice;

@@ -39,6 +39,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderType status;
 
+    private int totalPrice;
+
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
         orderItem.enableOrder(this);
@@ -83,5 +85,6 @@ public class Order {
         this.delivery = delivery;
         this.status = status;
         this.orderDate = orderDate;
+        this.totalPrice = getTotalPrice(); // totalPrice 필드 초기화
     }
 }

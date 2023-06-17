@@ -1,16 +1,18 @@
 package shopingmall.project.repository;
 
-import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import shopingmall.project.dto.request.OrderSearch;
 import shopingmall.project.dto.response.OrderResponse;
-import shopingmall.project.dto.response.QItemOrderDto;
 import shopingmall.project.dto.response.QOrderResponse;
-import shopingmall.project.entity.shoping.QOrder;
-import shopingmall.project.entity.shoping.QOrderItem;
+import shopingmall.project.entity.shoping.*;
+
+import java.util.List;
 
 import static shopingmall.project.entity.shoping.QOrder.*;
 import static shopingmall.project.entity.shoping.QOrderItem.*;
@@ -25,33 +27,38 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
     @Override
     public Page<OrderResponse> orderSearchPageComplex(OrderSearch condition, Pageable pageable) {
-        queryFactory
+
+        List<OrderResponse> content = queryFactory
                 .select(new QOrderResponse(
                         order.id.as("orderId"),
                         order.member.id.as("memberId"),
-                        order.member.name,
+                        order.member.name.as("memberName"),
                         order.member.phoneNumber,
                         order.member.address.city,
                         order.member.address.street,
                         order.member.address.zipcode,
-                        JPAExpressions
-                                .select(new QItemOrderDto(
-                                        orderItem.item.id,
-                                        orderItem.item.name,
-                                        orderItem.item.price,
-                                        orderItem.item.itemType,
-                                        orderItem.item.description,
-                                        orderItem.orderPrice,
-                                        orderItem.count
-                                ))
-                                .from(orderItem)
-                                .where(orderItem.order.eq(order))
-                                .fetch(),
+                        orderItem.item.id.as("itemId"),
+                        orderItem.item.name.as("itemName"),
+                        orderItem.item.price.as("itemPrice"),
+                        order.totalPrice,
                         order.delivery,
                         order.orderDate,
-                        order.status))
+                        order.status.as("orderStatus")))
                 .from(order)
+                .leftJoin(order.orderItems, orderItem)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
-        return null;
+
+        JPAQuery<Tuple> countQuery = queryFactory
+                .select(order, orderItem)
+                .from(order)
+                .leftJoin(order.orderItems, orderItem);
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
     }
+
+    /**
+     * 검색조건 orderId(주문번호), memberId(회원), itemId(상품), itemName(상품명), 날짜조회, 주문상태
+     */
 }
