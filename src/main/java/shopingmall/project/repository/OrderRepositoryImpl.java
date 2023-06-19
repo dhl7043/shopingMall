@@ -1,19 +1,24 @@
 package shopingmall.project.repository;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.util.StringUtils;
 import shopingmall.project.dto.request.OrderSearch;
 import shopingmall.project.dto.response.OrderResponse;
 import shopingmall.project.dto.response.QOrderResponse;
 import shopingmall.project.entity.shoping.*;
+import shopingmall.project.type.OrderType;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.springframework.util.StringUtils.*;
 import static shopingmall.project.entity.shoping.QOrder.*;
 import static shopingmall.project.entity.shoping.QOrderItem.*;
 
@@ -46,6 +51,13 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                         order.status.as("orderStatus")))
                 .from(order)
                 .leftJoin(order.orderItems, orderItem)
+                .where(orderIdEq(condition.getOrderId()),
+                        memberIdEq(condition.getMemberId()),
+                        itemIdEq(condition.getItemId()),
+                        itemNameEq(condition.getItemName()),
+                        orderDateGoe(condition.getOrderDateGoe()),
+                        orderDateLoe(condition.getOrderDateLoe()),
+                        orderStatusEq(condition.getOrderStatus()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -53,7 +65,14 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         JPAQuery<Tuple> countQuery = queryFactory
                 .select(order, orderItem)
                 .from(order)
-                .leftJoin(order.orderItems, orderItem);
+                .leftJoin(order.orderItems, orderItem)
+                .where(orderIdEq(condition.getOrderId()),
+                        memberIdEq(condition.getMemberId()),
+                        itemIdEq(condition.getItemId()),
+                        itemNameEq(condition.getItemName()),
+                        orderDateGoe(condition.getOrderDateGoe()),
+                        orderDateLoe(condition.getOrderDateLoe()),
+                        orderStatusEq(condition.getOrderStatus()));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
     }
@@ -61,4 +80,31 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     /**
      * 검색조건 orderId(주문번호), memberId(회원), itemId(상품), itemName(상품명), 날짜조회, 주문상태
      */
+    private BooleanExpression orderIdEq(Long orderId) {
+        return orderId != null ? order.id.eq(orderId) : null;
+    }
+
+    private BooleanExpression memberIdEq(Long memberId) {
+        return memberId != null ? order.member.id.eq(memberId) : null;
+    }
+
+    private BooleanExpression itemIdEq(Long itemId) {
+        return itemId != null ? orderItem.item.id.eq(itemId) : null;
+    }
+
+    private BooleanExpression itemNameEq(String itemName) {
+        return hasText(itemName) ? orderItem.item.name.eq(itemName) : null;
+    }
+
+    private BooleanExpression orderDateGoe(LocalDateTime orderDateGoe) {
+        return orderDateGoe != null ? order.orderDate.goe(orderDateGoe) : null;
+    }
+
+    private BooleanExpression orderDateLoe(LocalDateTime orderDateLoe) {
+        return orderDateLoe != null ? order.orderDate.loe(orderDateLoe) : null;
+    }
+
+    private BooleanExpression orderStatusEq(OrderType orderType) {
+        return orderType != null ? order.status.eq(orderType) : null;
+    }
 }

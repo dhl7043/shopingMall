@@ -3,11 +3,16 @@ package shopingmall.project.dto.request;
 import lombok.Getter;
 import shopingmall.project.type.OrderType;
 
+import java.time.LocalDateTime;
+
 @Getter
 public class OrderSearch {
 
-    private String memberName; // 회원 이름
-    private String email; // 회원 아이디(이메일)
+    private Long orderId;
+    private Long memberId;
+    private Long itemId;
+    private String itemName;
+    private LocalDateTime orderDateGoe;
+    private LocalDateTime orderDateLoe;
     private OrderType orderStatus;
-
 }
