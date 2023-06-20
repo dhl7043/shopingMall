@@ -24,25 +24,25 @@ public class ItemController {
     }
 
     /* 상품 한개 */
-    @GetMapping("/item/{itemId}")
+    @GetMapping("/items/{itemId}")
     public ItemResponse getItem(@PathVariable Long itemId) {
         return itemService.findByItemId(itemId);
     }
 
     /* 상품 모두다 */
-    @PostMapping("/item/items")
+    @GetMapping("/items")
     public Page<ItemResponse> items(ItemSearchCondition condition, Pageable pageable) {
         return itemService.searchItems(condition, pageable);
     }
 
     /* 상품 수정 */
-    @PatchMapping("/item/{itemId}")
+    @PatchMapping("/items/{itemId}")
     public void editItem(@PathVariable Long itemId, @RequestBody @Valid ItemEdit request) {
         itemService.updateItem(itemId, request);
     }
 
     /* 상품 삭제 */
-    @DeleteMapping("/item/{itemId}")
+    @DeleteMapping("/items/{itemId}")
     public void deleteItem(@PathVariable Long itemId) {
         itemService.deleteItem(itemId);
     }
