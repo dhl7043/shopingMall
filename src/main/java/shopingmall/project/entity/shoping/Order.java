@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shopingmall.project.dto.response.OrderResponse;
 import shopingmall.project.type.DeliveryType;
 import shopingmall.project.type.OrderType;
 
@@ -78,6 +79,28 @@ public class Order {
         return orderItems.stream()
                 .mapToInt(OrderItem::getTotalPrice)
                 .sum();
+    }
+
+    /**
+     * 단건 조회
+     */
+    public OrderResponse findOneOrder() {
+        return OrderResponse.builder()
+                .orderId(id)
+                .memberId(member.getId())
+                .memberName(member.getName())
+                .phoneNumber(member.getPhoneNumber())
+                .city(member.getAddress().getCity())
+                .street(member.getAddress().getStreet())
+                .zipcode(member.getAddress().getZipcode())
+                .itemId(orderItems.get(0).getItem().getId())
+                .itemName(orderItems.get(0).getItem().getName())
+                .itemPrice(orderItems.get(0).getItem().getPrice())
+                .totalPrice(totalPrice)
+                .delivery(delivery)
+                .orderDate(orderDate)
+                .orderStatus(status)
+                .build();
     }
 
     public Order(Member member, Delivery delivery, OrderType status, LocalDateTime orderDate) {

@@ -79,6 +79,18 @@ class OrderServiceTest {
         assertEquals(100, item.getStockQuantity());
     }
 
+    @Test
+    @DisplayName("주문 조회")
+    void searchOrder() {
+        Member member = createMember();
+        Item item = createItem();
+        int orderCount = 2;
+
+        Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
+
+
+    }
+
     /**
      * 아이템 생성 //String name, int price, ItemType item, String description, int stockQuantity
      */

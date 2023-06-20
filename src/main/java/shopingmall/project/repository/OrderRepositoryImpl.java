@@ -1,6 +1,7 @@
 package shopingmall.project.repository;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,6 +12,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
 import shopingmall.project.dto.request.OrderSearch;
 import shopingmall.project.dto.response.OrderResponse;
+import shopingmall.project.dto.response.QOrderItemDto;
 import shopingmall.project.dto.response.QOrderResponse;
 import shopingmall.project.entity.shoping.*;
 import shopingmall.project.type.OrderType;
