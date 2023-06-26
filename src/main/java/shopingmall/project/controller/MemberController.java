@@ -15,8 +15,13 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/signin")
-    public void signIn(@RequestBody @Valid MemberCreate memberCreate) {
-        memberService.join(memberCreate);
+    @GetMapping("/auth/signin")
+    public String signin() {
+        return "signin";
+    }
+
+    @PostMapping("/auth/signup")
+    public void signup(@RequestBody @Valid MemberCreate memberCreate) {
+        memberService.signup(memberCreate);
     }
 }

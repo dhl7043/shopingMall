@@ -116,7 +116,7 @@ class MemberServiceTest {
     private Long createMember() {
         MemberCreate memberCreate = Member.createMember("회원1", 10, "01012345678", "asd@asd.com", new Address("서울", "거리", "01010"));
 
-        return memberService.join(memberCreate);
+        return memberService.signup(memberCreate);
     }
 
     private void createMembers() {
@@ -126,10 +126,10 @@ class MemberServiceTest {
         MemberCreate memberCreate4 = Member.createMember("회원4", 40, "01012457812", "email@kakao.com", new Address("서울", "거리4", "12345"));
         MemberCreate memberCreate5 = Member.createMember("회원5", 50, "01012457812", "email@daum.com", new Address("부산", "거리5", "67895"));
 
-        memberService.join(memberCreate1);
-        memberService.join(memberCreate2);
-        memberService.join(memberCreate3);
-        memberService.join(memberCreate4);
-        memberService.join(memberCreate5);
+        memberService.signup(memberCreate1);
+        memberService.signup(memberCreate2);
+        memberService.signup(memberCreate3);
+        memberService.signup(memberCreate4);
+        memberService.signup(memberCreate5);
     }
 }

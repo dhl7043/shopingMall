@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Member;
+import shopingmall.project.exception.AlreadyExistsEmailException;
 import shopingmall.project.exception.NotFoundMemberException;
 import shopingmall.project.repository.MemberRepository;
 import shopingmall.project.dto.request.MemberCreate;
@@ -26,7 +27,10 @@ public class MemberService {
     /**
      * 회원가입
      */
-    public Long join(MemberCreate memberCreate) {
+    public Long signup(MemberCreate memberCreate) {
+        memberRepository.findByEmail(memberCreate.getEmail())
+                .orElseThrow(AlreadyExistsEmailException::new);
+
         Member member = Member.builder()
                 .name(memberCreate.getName())
                 .age(memberCreate.getAge())

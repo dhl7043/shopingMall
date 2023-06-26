@@ -27,6 +27,7 @@ public class Member {
     private int age;
     private String phoneNumber;
     private String email;
+    private String password;
 
     @Embedded
     private Address address;
@@ -35,23 +36,25 @@ public class Member {
     private List<Order> orders = new ArrayList<>();
 
     @Builder
-    public Member(String name, int age, String phoneNumber, String email, Address address) {
+    public Member(String name, int age, String phoneNumber, String email, String password, Address address) {
         this.name = name;
         this.age = age;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.password = password;
         this.address = address;
     }
 
     /**
      * 생성메서드 회원가입
      */
-    public static MemberCreate createMember(String name, int age, String phoneNumber, String email, Address address) {
+    public static MemberCreate createMember(String name, int age, String phoneNumber, String email, String password, Address address) {
         return MemberCreate.builder()
                 .name(name)
                 .age(age)
                 .phoneNumber(phoneNumber)
                 .email(email)
+                .password(password)
                 .address(address)
                 .build();
     }
