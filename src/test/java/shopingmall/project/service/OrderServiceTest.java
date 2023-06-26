@@ -1,11 +1,16 @@
 package shopingmall.project.service;
 
 import jakarta.persistence.EntityManager;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
+import shopingmall.project.dto.request.OrderSearch;
+import shopingmall.project.dto.response.OrderResponse;
 import shopingmall.project.entity.shoping.Address;
 import shopingmall.project.entity.shoping.Item;
 import shopingmall.project.entity.shoping.Member;
@@ -18,6 +23,7 @@ import shopingmall.project.type.OrderType;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -88,7 +94,17 @@ class OrderServiceTest {
 
         Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
 
+        OrderSearch condition = new OrderSearch();
+        condition.setOrderId(orderId);
 
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        // when
+        Page<OrderResponse> results = orderService.findOrders(condition, pageRequest);
+
+        // then
+        assertThat(results).extracting("itemName").containsExactly("상품1");
+        assertThat(results).extracting("memberName").containsExactly("회원1");
     }
 
     /**
