@@ -3,6 +3,7 @@ package shopingmall.project.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shopingmall.project.entity.shoping.Address;
@@ -23,6 +24,7 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 회원가입
@@ -31,11 +33,14 @@ public class MemberService {
         memberRepository.findByEmail(memberCreate.getEmail())
                 .orElseThrow(AlreadyExistsEmailException::new);
 
+        String encryptedPassword = passwordEncoder.encode(memberCreate.getPassword());
+
         Member member = Member.builder()
                 .name(memberCreate.getName())
                 .age(memberCreate.getAge())
                 .phoneNumber(memberCreate.getPhoneNumber())
                 .email(memberCreate.getEmail())
+                .password(encryptedPassword)
                 .address(new Address(
                         memberCreate.getAddress().getCity(),
                         memberCreate.getAddress().getStreet(),
@@ -93,7 +98,7 @@ public class MemberService {
     }
 
     private void duplicateCheckMember(Member member) {
-        List<MemberCreate> findMembers = memberRepository.findByName(member.getEmail());
+        List<Member> findMembers = memberRepository.findByName(member.getEmail());
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
