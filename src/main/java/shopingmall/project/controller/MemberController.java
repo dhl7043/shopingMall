@@ -15,9 +15,9 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/auth/signin")
-    public String signin() {
-        return "signin";
+    @GetMapping("/auth/login")
+    public String login() {
+        return "login";
     }
 
     @PostMapping("/auth/signup")

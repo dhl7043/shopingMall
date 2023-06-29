@@ -1,0 +1,22 @@
+### 회원가입
+
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "name": "임동희",
+  "email": "ldh7043@gmail.com",
+  "password": "1234"
+}
+
+### 로그인
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "ldh7043@gmail.com",
+  "password": "1234"
+}
+
+### 메인페이지
+GET http://localhost:8080
