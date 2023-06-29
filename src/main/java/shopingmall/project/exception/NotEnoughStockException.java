@@ -1,6 +1,6 @@
 package shopingmall.project.exception;
 
-public class NotEnoughStockException extends shopException {
+public class NotEnoughStockException extends ShopException {
 
     private static final String MESSAGE = "재고가 충분하지 않습니다.";
 

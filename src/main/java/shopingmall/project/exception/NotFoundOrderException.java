@@ -1,6 +1,6 @@
 package shopingmall.project.exception;
 
-public class NotFoundOrderException extends shopException {
+public class NotFoundOrderException extends ShopException {
 
     private static final String MESSAGE = "주문을 조회할 수 없습니다.";
 

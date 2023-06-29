@@ -1,6 +1,6 @@
 package shopingmall.project.exception;
 
-public class AlreadyExistsEmailException extends shopException {
+public class AlreadyExistsEmailException extends ShopException {
 
     private static final String MESSAGE = "이미 가입된 이메일입니다.";
 

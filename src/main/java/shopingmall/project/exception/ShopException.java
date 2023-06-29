@@ -6,15 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public abstract class shopException extends RuntimeException {
+public abstract class ShopException extends RuntimeException {
 
     public final Map<String, String> validation = new HashMap<>();
 
-    public shopException(String message) {
+    public ShopException(String message) {
         super(message);
     }
 
-    public shopException(String message, Throwable cause) {
+    public ShopException(String message, Throwable cause) {
         super(message, cause);
     }
 
