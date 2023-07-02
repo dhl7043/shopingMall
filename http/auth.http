@@ -5,8 +5,15 @@ Content-Type: application/json
 
 {
   "name": "임동희",
+  "age": 99,
+  "phoneNumber": "010-1234-5678",
   "email": "ldh7043@gmail.com",
-  "password": "1234"
+  "password": "1234",
+  "address": {
+    "city": "서울",
+    "street": "잠실",
+    "zipcode": "01010"
+  }
 }
 
 ### 로그인
