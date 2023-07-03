@@ -19,7 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import shopingmall.project.config.filter.EmailPasswordAuthFilter;
 import shopingmall.project.config.handler.Http401Handler;
 import shopingmall.project.config.handler.Http403Handler;
@@ -74,11 +73,11 @@ public class SecurityConfig {
         filter.setAuthenticationSuccessHandler(new SimpleUrlAuthenticationSuccessHandler("/"));
         filter.setAuthenticationFailureHandler(new LoginFailHandler(objectMapper));
         filter.setSecurityContextRepository(new HttpSessionSecurityContextRepository()); // 이게 있어야 세션 발급이됨
-        /* 자동로그인 - rememberme */
+        /* 자동로그인 - build.gradle에서 session 오류로 인해 http.remeberMe()로 교체
         SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
         rememberMeServices.setAlwaysRemember(true); // false하고 setRememberMeParameterName()은 지금 json으로 했기때문에 안될 수 있음
         rememberMeServices.setValiditySeconds(3600 * 24 * 30);
-        filter.setRememberMeServices(rememberMeServices);
+        filter.setRememberMeServices(rememberMeServices); */
         return filter;
     }
 

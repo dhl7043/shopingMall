@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @EnableJpaAuditing // BaseEntity 동작
 @SpringBootApplication
-linkppublic class ProjectApplication {
+public class ProjectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectApplication.class, args);
