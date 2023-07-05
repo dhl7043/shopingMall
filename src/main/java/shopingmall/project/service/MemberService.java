@@ -17,6 +17,7 @@ import shopingmall.project.dto.request.MemberSearchCondition;
 import shopingmall.project.dto.response.MemberResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -29,9 +30,12 @@ public class MemberService {
     /**
      * 회원가입
      */
+    @Transactional
     public Long signup(MemberCreate memberCreate) {
-        memberRepository.findByEmail(memberCreate.getEmail())
-                .orElseThrow(AlreadyExistsEmailException::new);
+        Optional<Member> memberOptional = memberRepository.findByEmail(memberCreate.getEmail());
+        if (memberOptional.isPresent()) {
+            throw new AlreadyExistsEmailException();
+        }
 
         String encryptedPassword = passwordEncoder.encode(memberCreate.getPassword());
 

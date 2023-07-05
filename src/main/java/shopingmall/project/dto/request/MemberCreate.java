@@ -1,11 +1,9 @@
 package shopingmall.project.dto.request;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import shopingmall.project.entity.shoping.Address;
 
-@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class MemberCreate {
 

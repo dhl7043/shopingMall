@@ -61,14 +61,14 @@ public class SecurityConfig {
                         .alwaysRemember(false)
                         .tokenValiditySeconds(2592000) //30일
                 ) // 자동 로그인
-//                .userDetailsService(userDetailsService()) // 빈으로 등록해놔서 안해줘도됨
+//                .userDetailsService(userDetailsService(memberRepository)) // 빈으로 등록해놔서 안해줘도됨
                 .csrf(AbstractHttpConfigurer::disable) // 로그인 꺼놓기..
                 .build();
     }
 
     @Bean
     public EmailPasswordAuthFilter usernamePasswordAuthenticationFilter() {
-        EmailPasswordAuthFilter filter = new EmailPasswordAuthFilter("/auth/signin", objectMapper);
+        EmailPasswordAuthFilter filter = new EmailPasswordAuthFilter("/auth/login", objectMapper);
         filter.setAuthenticationManager(authenticationManager());
         filter.setAuthenticationSuccessHandler(new SimpleUrlAuthenticationSuccessHandler("/"));
         filter.setAuthenticationFailureHandler(new LoginFailHandler(objectMapper));
