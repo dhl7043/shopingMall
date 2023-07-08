@@ -23,6 +23,7 @@ import shopingmall.project.config.filter.EmailPasswordAuthFilter;
 import shopingmall.project.config.handler.Http401Handler;
 import shopingmall.project.config.handler.Http403Handler;
 import shopingmall.project.config.handler.LoginFailHandler;
+import shopingmall.project.config.handler.LoginSuccessHandler;
 import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.repository.MemberRepository;
 
@@ -48,7 +49,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests()
-                    .requestMatchers("/auth/signin").permitAll()
+                    .requestMatchers("/auth/login").permitAll()
                     .requestMatchers("/auth/signup").permitAll()
                     .anyRequest().authenticated()
                 .and()
@@ -70,7 +71,7 @@ public class SecurityConfig {
     public EmailPasswordAuthFilter usernamePasswordAuthenticationFilter() {
         EmailPasswordAuthFilter filter = new EmailPasswordAuthFilter("/auth/login", objectMapper);
         filter.setAuthenticationManager(authenticationManager());
-        filter.setAuthenticationSuccessHandler(new SimpleUrlAuthenticationSuccessHandler("/"));
+        filter.setAuthenticationSuccessHandler(new LoginSuccessHandler()); // 로그인 성공시 리다이렉트
         filter.setAuthenticationFailureHandler(new LoginFailHandler(objectMapper));
         filter.setSecurityContextRepository(new HttpSessionSecurityContextRepository()); // 이게 있어야 세션 발급이됨
         /* 자동로그인 - build.gradle에서 session 오류로 인해 http.remeberMe()로 교체
