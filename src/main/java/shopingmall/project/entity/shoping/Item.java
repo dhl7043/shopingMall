@@ -24,10 +24,13 @@ public class Item extends BaseEntity {
     private int price;          //상품가격
 
     @Enumerated(EnumType.STRING)
-    private ItemType itemType;      //상품종류
+    private ItemType itemType;  //상품종류
     private String description; //상품설명
     private int stockQuantity;  //상품수량
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 //    @ManyToMany(mappedBy = "items")
 //    private List<Category> categories = new ArrayList<>();
 
@@ -51,12 +54,13 @@ public class Item extends BaseEntity {
     }
 
     @Builder
-    public Item(String name, int price, ItemType itemType, String description, int stockQuantity) {
+    public Item(String name, int price, ItemType itemType, String description, int stockQuantity, Member member) {
         this.name = name;
         this.price = price;
         this.itemType = itemType;
         this.description = description;
         this.stockQuantity = stockQuantity;
+        this.member = member;
     }
 
     //==생성 메서드==// new로 하는것보단 생성메서드를 사용하면 코드의 명확성과 유지보수성이 향상됨

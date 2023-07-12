@@ -35,6 +35,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
+    private List<Item> items;
+
     @Builder
     public Member(String name, int age, String phoneNumber, String email, String password, Address address) {
         this.name = name;
