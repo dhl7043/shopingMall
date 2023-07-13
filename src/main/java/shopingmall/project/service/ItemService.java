@@ -7,11 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shopingmall.project.dto.request.ItemSearchCondition;
 import shopingmall.project.entity.shoping.Item;
+import shopingmall.project.entity.shoping.Member;
 import shopingmall.project.exception.NotFoundItemException;
+import shopingmall.project.exception.NotFoundMemberException;
 import shopingmall.project.repository.ItemRepository;
 import shopingmall.project.dto.request.ItemCreate;
 import shopingmall.project.dto.request.ItemEdit;
 import shopingmall.project.dto.response.ItemResponse;
+import shopingmall.project.repository.MemberRepository;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,19 +22,25 @@ import shopingmall.project.dto.response.ItemResponse;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final MemberRepository memberRepository;
 
     /**
      * 상품등록
      */
     @Transactional
-    public Long saveItem(ItemCreate itemCreate) {
+    public Long saveItem(Long memberId, ItemCreate itemCreate) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
         Item item = Item.builder()
                 .name(itemCreate.getName())
                 .price(itemCreate.getPrice())
                 .itemType(itemCreate.getItemType())
                 .description(itemCreate.getDescription())
                 .stockQuantity(itemCreate.getStockQuantity())
+                .member(member)
                 .build();
+
         Item savedItem = itemRepository.save(item);
         return savedItem.getId();
     }
