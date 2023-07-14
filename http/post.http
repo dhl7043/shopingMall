@@ -1,6 +1,6 @@
 ### 아이템 등록
 
-POST http://localhost:8080/saveitem
+POST http://localhost:8080/items/save
 Content-Type: application/json
 
 {
@@ -10,3 +10,7 @@ Content-Type: application/json
   "description": "설명",
   "stockQuantity": 10
 }
+
+### 아이템 삭제
+DELETE http://localhost:8080/items/1
+Content-Type: application/json
