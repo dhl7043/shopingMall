@@ -15,13 +15,11 @@ import shopingmall.project.repository.OrderRepository;
 public class MethodSecurityConfig {
 
     private final ItemRepository itemRepository;
-    private final OrderRepository orderRepository;
 
     @Bean
     public MethodSecurityExpressionHandler methodSecurityExpressionHandler() {
         DefaultMethodSecurityExpressionHandler handler = new DefaultMethodSecurityExpressionHandler();
         handler.setPermissionEvaluator(new ItemRegiPermissionEvaluator(itemRepository));
-        handler.setPermissionEvaluator(new OrderRegiPermissionEvaluator(orderRepository));
 
         return handler;
     }

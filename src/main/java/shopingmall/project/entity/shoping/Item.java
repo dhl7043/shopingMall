@@ -31,6 +31,7 @@ public class Item extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
 //    @ManyToMany(mappedBy = "items")
 //    private List<Category> categories = new ArrayList<>();
 
